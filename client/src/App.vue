@@ -41,7 +41,7 @@
         </v-list-tile>
 
         <!-- Signout Button -->
-        <v-list-tile v-if="user">
+        <v-list-tile v-if="user" @click="handleSignoutUser">
           <v-list-tile-action>
             <v-icon>exit_to_app</v-icon>
           </v-list-tile-action>
@@ -117,6 +117,7 @@
         <v-btn
           flat
           v-if="user"
+          @click="handleSignoutUser"
         >
           <v-icon
             class="hidden-sm-only"
@@ -180,6 +181,9 @@ export default {
     }
   },
   methods: {
+    handleSignoutUser() {
+      this.$store.dispatch('signoutUser');
+    },
     toggleSideNav() {
       this.sideNav = !this.sideNav;
     }
