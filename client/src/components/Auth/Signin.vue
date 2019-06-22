@@ -96,7 +96,7 @@
                     </template>
 
                     Signin</v-btn>
-                  <h3>Already have an account?
+                  <h3>Don't have an account?
                     <router-link to="/signup">Signup</router-link>
                   </h3>
                 </v-flex>
