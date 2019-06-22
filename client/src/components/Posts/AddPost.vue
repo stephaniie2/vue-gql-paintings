@@ -159,6 +159,7 @@ export default {
           description: this.description,
           creatorId: this.user._id
         });
+        this.$router.push('/');
       }
     }
   }

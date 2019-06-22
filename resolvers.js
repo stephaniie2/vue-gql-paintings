@@ -1,5 +1,5 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const createToken = (user, secret, expiresIn) => {
   const { username, email } = user;
@@ -13,19 +13,19 @@ module.exports = {
         return null;
       }
       const user = await User.findOne({
-        username: currentUser.username,
-      }).populate({ path: 'favorites', model: 'Post' });
+        username: currentUser.username
+      }).populate({ path: "favorites", model: "Post" });
       return user;
     },
     getPosts: async (_, args, { Post }) => {
       const posts = await Post.find({})
-        .sort({ createdDate: 'desc' })
+        .sort({ createdDate: "desc" })
         .populate({
-          path: 'createdBy',
-          model: 'User',
+          path: "createdBy",
+          model: "User"
         });
       return posts;
-    },
+    }
   },
   Mutation: {
     addPost: async (
@@ -38,32 +38,32 @@ module.exports = {
         imageUrl,
         categories,
         description,
-        createdBy: creatorId,
+        createdBy: creatorId
       }).save();
       return newPost;
     },
     signinUser: async (_, { username, password }, { User }) => {
       const user = await User.findOne({ username });
       if (!user) {
-        throw new Error('User not found');
+        throw new Error("User not found");
       }
       const isValidPassword = await bcrypt.compare(password, user.password);
       if (!isValidPassword) {
-        throw new Error('Invalid password');
+        throw new Error("Invalid password");
       }
-      return { token: createToken(user, process.env.SECRET, '1hr') };
+      return { token: createToken(user, process.env.SECRET, "1hr") };
     },
     signupUser: async (_, { username, email, password }, { User }) => {
       const user = await User.findOne({ username });
       if (user) {
-        throw new Error('User already exists');
+        throw new Error("User already exists");
       }
       const newUser = await new User({
         username,
         email,
-        password,
+        password
       }).save();
-      return { token: createToken(newUser, process.env.SECRET, '1hr') };
-    },
-  },
+      return { token: createToken(newUser, process.env.SECRET, "1hr") };
+    }
+  }
 };
