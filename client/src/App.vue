@@ -41,7 +41,10 @@
         </v-list-tile>
 
         <!-- Signout Button -->
-        <v-list-tile v-if="user" @click="handleSignoutUser">
+        <v-list-tile
+          v-if="user"
+          @click="handleSignoutUser"
+        >
           <v-list-tile-action>
             <v-icon>exit_to_app</v-icon>
           </v-list-tile-action>
@@ -136,6 +139,24 @@
           <router-view />
 
         </transition>
+        <!-- Auth Snackbar -->
+        <v-snackbar
+          v-model="authSnackbar"
+          color="success"
+          :timeout="5000"
+          bottom
+          left
+        >
+          <v-icon class="mr-3">check_circle</v-icon>
+          <h3>You are now signed in!</h3>
+          <v-btn
+            dark
+            flat
+            @click="authSnackbar = false"
+          >Close</v-btn>
+
+        </v-snackbar>
+
       </v-container>
 
     </main>
@@ -148,8 +169,18 @@ export default {
   name: "App",
   data() {
     return {
-      sideNav: false
+      sideNav: false,
+      authSnackbar: false
     };
+  },
+  watch: {
+    user(newValue, oldValue) {
+      // if user previously had no value, show snackbar
+      if (oldValue === null) {
+        this.authSnackbar = true;
+      }
+
+    }
   },
   computed: {
     ...mapGetters(["user"]),
@@ -182,7 +213,7 @@ export default {
   },
   methods: {
     handleSignoutUser() {
-      this.$store.dispatch('signoutUser');
+      this.$store.dispatch("signoutUser");
     },
     toggleSideNav() {
       this.sideNav = !this.sideNav;
