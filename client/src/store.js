@@ -3,7 +3,13 @@ import Vuex from 'vuex';
 import router from './router';
 
 import { defaultClient as ApolloClient } from './main';
-import { GET_CURRENT_USER, GET_POSTS, SIGNIN_USER, SIGNUP_USER } from './queries';
+import {
+  GET_CURRENT_USER,
+  GET_POSTS,
+  SIGNIN_USER,
+  SIGNUP_USER,
+  ADD_POST,
+} from './queries';
 
 Vue.use(Vuex);
 
@@ -13,7 +19,7 @@ export default new Vuex.Store({
     user: null,
     loading: false,
     error: null,
-    authError: null
+    authError: null,
   },
   mutations: {
     setPosts: (state, payload) => {
@@ -29,7 +35,7 @@ export default new Vuex.Store({
       state.error = payload;
     },
     setAuthError: (state, payload) => {
-      state.authError = payload;      
+      state.authError = payload;
     },
     clearUser: state => {
       state.user = null;
@@ -70,6 +76,20 @@ export default new Vuex.Store({
         })
         .catch(err => {
           commit('setLoading', false);
+          console.error(err);
+        });
+    },
+    addPost: ({ commit }, payload) => {
+      ApolloClient.mutate({
+        mutation: ADD_POST,
+        variables: payload,
+      })
+        .then(({ data }) => {
+          console.log(data.addPost);
+        })
+        .catch(err => {
+          commit('setLoading', false);
+          commit('setError', err);
           console.error(err);
         });
     },

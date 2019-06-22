@@ -32,6 +32,30 @@ export const GET_CURRENT_USER = gql`
 `;
 
 /* Posts Mutation */
+export const ADD_POST = gql`
+  mutation(
+    $title: String!
+    $imageUrl: String!
+    $categories: [String]!
+    $description: String!
+    $creatorId: ID!
+  ) {
+    addPost(
+      title: $title
+      imageUrl: $imageUrl
+      categories: $categories
+      description: $description
+      creatorId: $creatorId
+    ) {
+      _id
+      title
+      imageUrl
+      categories
+      description
+      createdDate
+    }
+  }
+`;
 
 /*User Mutations */
 export const SIGNIN_USER = gql`
