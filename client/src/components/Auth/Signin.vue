@@ -1,52 +1,23 @@
 <template>
-  <v-container
-    text-xs-center
-    mt-5
-    pt-5
-  >
+  <v-container text-xs-center mt-5 pt-5>
     <!-- Signin Title -->
-    <v-layout
-      row
-      wrap
-    >
-      <v-flex
-        xs12
-        sm6
-        offset-sm3
-      >
+    <v-layout row wrap>
+      <v-flex xs12 sm6 offset-sm3>
         <h1>Welcome Back!</h1>
       </v-flex>
     </v-layout>
 
     <!-- Error Alert -->
-    <v-layout
-      v-if="error"
-      row
-      wrap
-    >
-      <v-flex
-        xs12
-        sm6
-        offset-sm3
-      >
+    <v-layout v-if="error" row wrap>
+      <v-flex xs12 sm6 offset-sm3>
         <form-alert :message="error.message"></form-alert>
       </v-flex>
     </v-layout>
 
     <!-- Signin Form -->
-    <v-layout
-      row
-      wrap
-    >
-      <v-flex
-        xs12
-        sm6
-        offset-sm3
-      >
-        <v-card
-          color="secondary"
-          dark
-        >
+    <v-layout row wrap>
+      <v-flex xs12 sm6 offset-sm3>
+        <v-card color="secondary" dark>
           <v-container>
             <v-form
               v-model="isFormValid"
@@ -65,7 +36,6 @@
                     required
                   ></v-text-field>
                 </v-flex>
-
               </v-layout>
               <v-layout row>
                 <v-flex xs12>
@@ -94,9 +64,10 @@
                         <v-icon light>cached</v-icon>
                       </span>
                     </template>
-
-                    Signin</v-btn>
-                  <h3>Don't have an account?
+                    Signin
+                  </v-btn>
+                  <h3>
+                    Don't have an account?
                     <router-link to="/signup">Signup</router-link>
                   </h3>
                 </v-flex>

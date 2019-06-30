@@ -1,40 +1,16 @@
 <template>
-  <v-container
-    text-xs-center
-    mt-5
-    pt-5
-  >
+  <v-container text-xs-center mt-5 pt-5>
     <!-- Add Post Title -->
-    <v-layout
-      row
-      wrap
-    >
-      <v-flex
-        xs12
-        sm6
-        offset-sm3
-      >
+    <v-layout row wrap>
+      <v-flex xs12 sm6 offset-sm3>
         <h1 class="primary--text">Add Post</h1>
       </v-flex>
     </v-layout>
 
     <!-- Add Post Form -->
-    <v-layout
-      row
-      wrap
-    >
-      <v-flex
-        xs12
-        sm6
-        offset-sm3
-      >
-        <v-form
-          v-model="isFormValid"
-          ref="form"
-          lazy-validation
-          @submit.prevent="handleAddPost"
-        >
-
+    <v-layout row wrap>
+      <v-flex xs12 sm6 offset-sm3>
+        <v-form v-model="isFormValid" ref="form" lazy-validation @submit.prevent="handleAddPost">
           <!-- Title Input -->
           <v-layout row>
             <v-flex xs12>
@@ -64,10 +40,7 @@
           <!-- Image Preview Input -->
           <v-layout row>
             <v-flex xs12>
-              <img
-                :src="imageUrl"
-                height="300px"
-              >
+              <img :src="imageUrl" height="300px" />
             </v-flex>
           </v-layout>
 
@@ -99,17 +72,14 @@
 
           <v-layout row>
             <v-flex xs12>
-              <v-btn
-                :disabled="!isFormValid"
-                color="info"
-                type="submit"
-              >
+              <v-btn :disabled="!isFormValid" color="info" type="submit">
                 <template v-slot:loader>
                   <span class="custom-loader">
                     <v-icon light>cached</v-icon>
                   </span>
                 </template>
-                Submit</v-btn>
+                Submit
+              </v-btn>
             </v-flex>
           </v-layout>
         </v-form>
@@ -159,7 +129,7 @@ export default {
           description: this.description,
           creatorId: this.user._id
         });
-        this.$router.push('/');
+        this.$router.push("/");
       }
     }
   }
