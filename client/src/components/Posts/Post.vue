@@ -19,7 +19,7 @@
             <v-img @click="toggleImageDialog" slot="activator" :src="getPost.imageUrl" id="post__image"></v-img>
           </v-tooltip>
 
-          <!-- Post Image Dialog -->
+          <!-- Post Imagee Dialog -->
           <v-dialog v-model="dialog">
             <v-card>
               <v-img :src="getPost.imageUrl" height="80vh"></v-img>
