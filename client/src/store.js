@@ -8,7 +8,8 @@ import {
   GET_POSTS,
   SIGNIN_USER,
   SIGNUP_USER,
-  ADD_POST
+  ADD_POST,
+  SEARCH_POSTS
 } from "./queries";
 
 Vue.use(Vuex);
@@ -16,6 +17,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     posts: [],
+    searchResults: [],
     user: null,
     loading: false,
     error: null,
@@ -25,24 +27,20 @@ export default new Vuex.Store({
     setPosts: (state, payload) => {
       state.posts = payload;
     },
+    setSearchResults: (state, payload) => {
+      if (payload !== null) {
+        state.searchResults = payload;
+      }
+    },
     setUser: (state, payload) => {
       state.user = payload;
     },
-    setLoading: (state, payload) => {
-      state.loading = payload;
-    },
-    setError: (state, payload) => {
-      state.error = payload;
-    },
-    setAuthError: (state, payload) => {
-      state.authError = payload;
-    },
-    clearUser: state => {
-      state.user = null;
-    },
-    clearError: state => {
-      state.error = null;
-    }
+    setLoading: (state, payload) => (state.loading = payload),
+    setError: (state, payload) => (state.error = payload),
+    setAuthError: (state, payload) => (state.authError = payload),
+    clearUser: state => (state.user = null),
+    clearSearchResults: state => (state.searchResults = []),
+    clearError: state => (state.error = null)
   },
   actions: {
     getCurrentUser: ({ commit }) => {
@@ -78,6 +76,14 @@ export default new Vuex.Store({
           commit("setLoading", false);
           console.error(err);
         });
+    },
+    searchPosts: ({ commit }, payload) => {
+      ApolloClient.query({
+        query: SEARCH_POSTS,
+        variables: payload
+      }).then(({ data }) => {
+        commit('setSearchResults', data.searchPosts);
+      }).catch(err => console.error(err));
     },
     addPost: ({ commit }, payload) => {
       ApolloClient.mutate({
@@ -169,6 +175,7 @@ export default new Vuex.Store({
   },
   getters: {
     posts: state => state.posts,
+    searchResults: state => state.searchResults,
     user: state => state.user,
     userFavorites: state => state.user && state.user.favorites,
     loading: state => state.loading,
