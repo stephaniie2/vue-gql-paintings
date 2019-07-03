@@ -26,7 +26,7 @@ module.exports = {
         });
       return posts;
     },
-    getUserPosts: async (_, {userId}, {Post}) => {
+    getUserPosts: async (_, { userId }, { Post }) => {
       const posts = await Post.find({
         createdBy: userId
       });
@@ -39,19 +39,19 @@ module.exports = {
       });
       return post;
     },
-    searchPosts: async (_, {searchTerm}, {Post}) => {
+    searchPosts: async (_, { searchTerm }, { Post }) => {
       if (searchTerm) {
         const searchResults = await Post.find(
           // Perform text search for value 'searchTerm'
-          {$text: {$search: searchTerm}},
+          { $text: { $search: searchTerm } },
           // Assign 'searchTerm' a text score to provide best match
-          {score: {$meta: 'textScore'}}
-        // Sort results according to textScore (and by likes)
+          { score: { $meta: 'textScore' } }
+          // Sort results according to textScore (and by likes)
         ).sort({
-          score: { $meta: 'textScore'},
+          score: { $meta: 'textScore' },
           likes: 'desc'
         })
-        .limit(5);
+          .limit(5);
         return searchResults;
       }
     },
@@ -96,6 +96,15 @@ module.exports = {
         createdBy: creatorId
       }).save();
       return newPost;
+    },
+    updateUserPost: async (_, { postId, userId, title, imageUrl, categories, description }, { Post }) => {
+      const post = await Post.findOneAndUpdate(
+        // Find post by postId and createdBy
+        { _id: postId, createdBy: userId },
+        { $set: { title, imageUrl, categories, description } },
+        { new: true }
+      )
+      return post;
     },
     addPostMessage: async (_, { messageBody, userId, postId }, { Post }) => {
       const newMessage = {

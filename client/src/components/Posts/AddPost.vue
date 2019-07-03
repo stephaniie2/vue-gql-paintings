@@ -101,7 +101,7 @@ export default {
       description: "",
       titleRules: [
         title => !!title || "Title is required",
-        title => title.length < 10 || "Title must have less then 20 characters"
+        title => title.length < 20 || "Title must have less then 20 characters"
       ],
       imageRules: [image => !!image || "Image is required"],
       categoriesRules: [
