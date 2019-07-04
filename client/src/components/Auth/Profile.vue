@@ -11,7 +11,7 @@
             <v-card-title primary-title>
               <div>
                 <div class="headline">{{user.username}}</div>
-                <div>Joined {{user.joinDate}}</div>
+                <div>Joined {{formatJoindate(user.joinDate)}}</div>
                 <div class="hidden-xs-only font-weight-thin">{{user.favorites.length}} Favorites</div>
                 <div class="hidden-xs-only font-weight-thin">{{userPosts.length}} posts added</div>
               </div>
@@ -40,7 +40,7 @@
       <v-layout row wrap>
         <v-flex xs12 sm6 v-for="favorite in userFavorites" :key="favorite._id">
           <v-card class="mt-3 ml-1 mr-2" hover>
-            <v-img height="30vh" :src="favorite.imageUrl"></v-img>
+            <v-img @click="goToPost(favorite._id)" height="30vh" :src="favorite.imageUrl"></v-img>
             <v-card-text>{{favorite.title}}</v-card-text>
           </v-card>
         </v-flex>
@@ -71,7 +71,7 @@
             <v-btn @click="handleDeleteUserPost(post)" color="error" floating fab small dark>
               <v-icon>delete</v-icon>
             </v-btn>
-            <v-img height="30vh" :src="post.imageUrl"></v-img>
+            <v-img @click="goToPost(post._id)" height="30vh" :src="post.imageUrl"></v-img>
             <v-card-text>{{post.title}}</v-card-text>
           </v-card>
         </v-flex>
@@ -162,6 +162,7 @@
 </template>
 
 <script>
+import moment from "moment";
 import { mapGetters } from "vuex";
 export default {
   name: "Profile",
@@ -196,6 +197,12 @@ export default {
     this.handleGetUserPosts();
   },
   methods: {
+    goToPost(id) {
+      this.$router.push(`/posts/${id}`);
+    },
+    formatJoindate(date) {
+      return moment(new Date(date)).format("ll");
+    },
     handleGetUserPosts() {
       this.$store.dispatch("getUserPosts", {
         userId: this.user._id
@@ -217,11 +224,13 @@ export default {
     },
     handleDeleteUserPost(post) {
       this.loadPost(post, false);
-      const deletePost = window.confirm('Are you sure you want to delete this post?');
+      const deletePost = window.confirm(
+        "Are you sure you want to delete this post?"
+      );
       if (deletePost) {
-        this.$store.dispatch('deleteUserPost', {
+        this.$store.dispatch("deleteUserPost", {
           postId: this.postId
-        })
+        });
       }
     },
     loadPost(

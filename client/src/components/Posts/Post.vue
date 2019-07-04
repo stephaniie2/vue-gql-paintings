@@ -88,7 +88,7 @@
                     {{message.messageUser.username}}
                     <span
                       class="grey--text text--lighten-1 hidden-xs-only"
-                    >{{message.messageDate}}</span>
+                    >{{getDateFromNow(message.messageDate)}}</span>
                   </v-list-tile-sub-title>
                 </v-list-tile-content>
 
@@ -105,6 +105,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 import {
   GET_POST,
   ADD_POST_MESSAGE,
@@ -143,6 +144,9 @@ export default {
     ...mapGetters(["user", "userFavorites"])
   },
   methods: {
+    getDateFromNow(time) {
+      return moment(new Date(time)).fromNow();
+    },
     ifPostLiked(postId) {
       // check if user favorites includes postId
       if (
